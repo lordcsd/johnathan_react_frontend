@@ -6,10 +6,10 @@ import {
 } from "react-router-dom";
 import Home from "./pages/home";
 import Login from "./pages/login";
+import DashBoard from "./pages/dashboard"
 import axios from "axios";
-import { CookiesProvider } from "react-cookie"
-
-const baseURL = 'http://localhost:3001/api'
+import { CookiesProvider, useCookies } from "react-cookie"
+import { baseURL } from "./common/constants";
 
 const router = createBrowserRouter([
   {
@@ -20,30 +20,45 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />
   },
+  {
+    path: "/dashboard",
+    element: <DashBoard />
+  },
 ]);
 
 function App() {
   const [state, setState] = useState({
     userCart: [],
-    bearerToken: ""
+    bearerToken: "",
+    user: {
+      "isAdmin": false,
+      "_id": "",
+      "name": "",
+      "email": "",
+      "activeTickets": [],
+      "notifications": []
+    }
   })
+
+  const [cookies] = useCookies(['cookie-name'])
 
   let axiosConfig = () => axios.create({
     baseURL,
     headers: {
-      Authorization: `Bearer ${state.bearerToken}`,
+      Authorization: `Bearer ${cookies['token'] || ""}`,
     },
   })
 
-  const setBearerToken = (token) => {
-    setState({ ...state, bearerToken: token })
+  const user = state.user
+  const updateUser = async (details) => {
+    await setState({ ...state, user: details })
   }
 
   return (
 
     <CookiesProvider>
       <RootContext.Provider
-        value={{ axiosConfig, setBearerToken, }}>
+        value={{ axiosConfig, user, updateUser }}>
         <RouterProvider router={router} />
       </RootContext.Provider>
     </CookiesProvider>

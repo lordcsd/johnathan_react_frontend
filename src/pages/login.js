@@ -58,7 +58,7 @@ export default function Login() {
         errors: []
     })
 
-    const { axiosConfig, setBearerToken } = useContext(RootContext)
+    const { axiosConfig, user, updateUser } = useContext(RootContext)
 
     const [cookies, setCookies, removeCookie] = useCookies(['cookie-name'])
     const navigate = useNavigate()
@@ -67,14 +67,17 @@ export default function Login() {
     const switchShowPassword = () => setState({ ...state, showPasswords: !state.showPasswords })
     const handleInputs = (e) => {
         let errors = []
-        const { email, password, confirmPassword, name, phone, age } = state;
-        if (email && password && confirmPassword && name && phone && age) {
-            errors = validInputs()
+        const { email, password, confirmPassword, name, phone, age, login } = state;
+        if (
+            (email && password && login) ||
+            (email && password && confirmPassword && name && phone && age && !login)
+        ) {
+            errors = validInputs();
         }
         setState({
             ...state,
             [e.target.name]: e.target.value,
-            ...errors.length > 0 && { errors }
+            errors
         })
     }
 
@@ -95,7 +98,17 @@ export default function Login() {
                 for (let field in loggedInUser) {
                     setCookies(field, loggedInUser[field], { path: "/" })
                 }
-                setBearerToken(loggedInUser.token)
+                const { isAdmin, _id, activeTickets, notifications, token } = loggedInUser
+                updateUser({
+                    ...user,
+                    isAdmin,
+                    _id,
+                    activeTickets,
+                    notifications,
+                    email: loggedInUser.email,
+                    name: loggedInUser.name
+                })
+                navigate("/dashboard")
             }
             if (!login) {
                 const { data: signedUpUser } = await axiosConfig()
@@ -113,10 +126,10 @@ export default function Login() {
         }
     }
 
-    return <main className="h-screen w-screen bg-slate-100">
+    return <main className=" bg-slate-100 min-h-screen">
         <NavBar />
-        <div className="flex flex-col justify-center mt-20">
-            <div className="mt-5 sm:m-2 md:m-4 lg:m-40 bg-white p-4 rounded-lg shadow-lg">
+        <div className="flex flex-col justify-center">
+            <div className="m-2 sm:m-2 md:m-6 lg:m-10 bg-white p-4 rounded-lg shadow-lg">
                 <p className="text-2xl pb-2">{state.login ? 'Login' : "Sign Up"}</p>
                 <div>
                     {(state.login ? loginFields : signUpFields)
@@ -152,17 +165,19 @@ export default function Login() {
                 </div>
 
                 <div className="flex flex-wrap justify-between items-center">
-                    <button
-                        className="bg-slate-300 p-2 rounded-sm shadow-md my-2"
-                        onClick={switchAction}>
-                        {state.login
-                            ? "Please click here to create a new account if you don't already have!"
-                            : "If you already have an account, click here to login!"}
-                    </button>
-                    <button
-                        className={`bg-${!state.showPasswords ? 'red-300' : 'yellow-600'} rounded-sm shadow-md p-2 outline-none`}
-                        onClick={switchShowPassword}
-                    >{state.showPasswords ? 'Hide Passwords' : 'Show Passwords'}</button>
+                    <div>
+                        <button
+                            className="bg-slate-300 p-2 rounded-sm shadow-md  my-2"
+                            onClick={switchAction}>
+                            {state.login
+                                ? "Please click here to create a new account if you don't already have!"
+                                : "If you already have an account, click here to login!"}
+                        </button>
+                        <button
+                            className={`${!state.showPasswords ? 'bg-red-300' : 'bg-green-300 '} rounded-sm shadow-md p-2 outline-none my-2 md:ml-2`}
+                            onClick={switchShowPassword}
+                        >{state.showPasswords ? 'Hide Passwords' : 'Show Passwords'}</button>
+                    </div>
                     <button
                         onClick={loginOrSignUp}
                         className="bg-blue-500 text-white font-bold p-2 rounded">

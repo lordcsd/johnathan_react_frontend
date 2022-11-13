@@ -46,9 +46,9 @@ export default function Home() {
         <div className="h-screen">
             <NavBar showLoginButton={true} />
             <header style={{ backgroundImage: "url(/assets/images/header.jpg)" }}
-                className="h-3/5 bg-no-repeat bg-cover flex items-center justify-center">
+                className="h-3/5 p-5 bg-no-repeat bg-cover flex items-center justify-center">
 
-                <div className=" h-4/5 w-4/5 bg-black bg-opacity-50 rounde flex flex-col items-center justify-between p-12">
+                <div className="bg-black bg-opacity-50 rounde flex flex-col items-center justify-between p-12">
                     <h1 className="text-white text-5xl text-center mb-4">Experience Seamless automated Tourism</h1>
                     <button
                         onClick={gotoLogin}
