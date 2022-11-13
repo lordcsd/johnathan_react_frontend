@@ -3,27 +3,27 @@ import NavBar from "../components/header";
 
 let features = [
     {
-        imageUrl: "/images/greenland.jpg",
+        imageUrl: "/assets/images/greenland.jpg",
         title: "Experience Nature",
         desc: `Get as close you can get, Face-to-face to nature in it's purest form, let the chipping birds and the cool breeze keep you company`,
     },
     {
-        imageUrl: "/images/igloo.jpg",
+        imageUrl: "/assets/images/igloo.jpg",
         title: "Experience Ancient Landmarks",
         desc: `Visit the Igloos of the temperates, the rain-forests of the tropics, the deserts of the tundra, the highs of Kilimangaro and the piramides of Egypt`,
     },
     {
-        imageUrl: "/images/meditate.jpg",
+        imageUrl: "/assets/images/meditate.jpg",
         title: "Feel the tranquil",
         desc: `Escape the complicating, stressful and tiring day-to-day life, to experience natural peace of mind`,
     },
     {
-        imageUrl: "/images/offshore.jpg",
+        imageUrl: "/assets/images/offshore.jpg",
         title: "The Creeks",
         desc: `Live the Aqua-man life in well-built over water houses and experience the wonders of aqualife!`,
     },
     {
-        imageUrl: "/images/picnic.jpg",
+        imageUrl: "/assets/images/picnic.jpg",
         title: "Family Time",
         desc: `Get the opportunity to spend quality and worth-while time with loved ones!`,
     },
@@ -45,7 +45,7 @@ export default function Home() {
     return <main>
         <div className="h-screen">
             <NavBar showLoginButton={true} />
-            <header style={{ backgroundImage: "url(/images/header.jpg)" }}
+            <header style={{ backgroundImage: "url(/assets/images/header.jpg)" }}
                 className="h-3/5 bg-no-repeat bg-cover flex items-center justify-center">
 
                 <div className=" h-4/5 w-4/5 bg-black bg-opacity-50 rounde flex flex-col items-center justify-between p-12">
