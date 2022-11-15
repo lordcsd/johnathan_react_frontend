@@ -30,7 +30,7 @@ let features = [
 ];
 
 function Feature({ imageUrl, title, desc }) {
-    return <div className="my-10 flex rounded-r-md shadow-lg">
+    return <div className="my-10 bg-white flex rounded-r-md shadow-lg min-h-60 sm:w-full lg:w-2/5">
         <div className="w-2/5 p-3">
             <p className="text-xl font-bold">{title}</p>
             <p>{desc}</p>
@@ -43,7 +43,7 @@ export default function Home() {
     const navigate = useNavigate()
     const gotoLogin = () => navigate('/login')
     return <main>
-        <div className="h-screen">
+        <div className="min-h-screen bg-slate-100">
             <NavBar showLoginButton={true} />
             <header style={{ backgroundImage: "url(/assets/images/header.jpg)" }}
                 className="h-3/5 p-5 bg-no-repeat bg-cover flex items-center justify-center">
@@ -60,7 +60,7 @@ export default function Home() {
 
             <section>
                 <p className="bg-black text-white p-5 text-xl">Features</p>
-                <div className="p-5">
+                <div className="p-5 flex flex-wrap justify-around">
                     {features.map(({ imageUrl, title, desc }, index) => <Feature imageUrl={imageUrl} title={title} desc={desc} key={index} />)}
                 </div>
             </section>

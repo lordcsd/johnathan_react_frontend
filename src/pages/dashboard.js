@@ -3,35 +3,41 @@ import { useState } from "react"
 import AccountSetting from "../components/accountSetting"
 import Header from "../components/header"
 import Overview from "../components/overview"
+import UserActiveTickets from "../components/userActiveTickets"
+import Tickets from "../components/tickets"
+import UserCart from "../components/userCart"
 
 const generalViews = {
     'Overview': <Overview />,
-    "Account Setting": <AccountSetting />
+    "Account Setting": <AccountSetting />,
+    "Tickets": <Tickets />
 }
 
 
 const adminViews = {
-    ...generalViews
+    ...generalViews,
 }
 
 const touristViews = {
-    ...generalViews
+    ...generalViews,
+    "Cart": <UserCart />,
+    "Active Tickets": <UserActiveTickets />,
 }
 
 export default function Dashboard() {
     const [state, setState] = useState({
-        presentScreen: 'Overview'
+        presentScreen: 'Tickets'
     })
 
     const [cookies, setCookir, removeCookie] = useCookies(['cookie-name'])
 
-    const subComponents = cookies['isAdmin'] ? adminViews : touristViews;
+    const subComponents = cookies['isAdmin'] === 'true' ? adminViews : touristViews;
 
     const presentScreen = subComponents[state.presentScreen]
 
     return <div className="bg-slate-200 min-h-screen">
         <Header showLoginButton={false} showLogout={true} />
-        <nav className="flex justify-center bg-slate-700 ">
+        <nav className="flex justify-center flex-wrap bg-slate-700 ">
             {
                 Object.keys(subComponents)
                     .map((_key, _index) =>
@@ -42,7 +48,8 @@ export default function Dashboard() {
                              ${state.presentScreen === _key
                                     ? "bg-green-500 text-white"
                                     : "bg-white text-slate-700"}
-                                    text-lg rounded-md font-bold
+                                    sm:text-xs sm:font-normal
+                                    lg:text-lg rounded-md lg:font-bold
                              `}
                         >
                             {_key}
