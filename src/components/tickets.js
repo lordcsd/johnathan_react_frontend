@@ -52,7 +52,7 @@ export default function Tickets() {
 
     const idsInCart = userCart.map(ticket => ticket._id)
 
-    return <div className="grid sm:grid-cols-1  sm:gap-0 lg:grid-cols-2 lg:gap-3">
+    return <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-3">
         {
             tickets &&
             tickets.map((_ticket, _index) =>

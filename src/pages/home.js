@@ -30,12 +30,19 @@ let features = [
 ];
 
 function Feature({ imageUrl, title, desc }) {
-    return <div className="my-10 bg-white flex rounded-r-md shadow-lg min-h-60 sm:w-full lg:w-2/5">
+    return <div className="bg-white flex flex-col sm:flex-col lg:flex-row rounded-r-md shadow-lg ">
         <div className="w-2/5 p-3">
             <p className="text-xl font-bold">{title}</p>
             <p>{desc}</p>
         </div>
-        <img src={imageUrl} alt={title} className="w-3/5 h-100 object-cover rounded-r-md" />
+        <img
+            src={imageUrl}
+            alt={title}
+            className={`
+            sm:w-full sm:h-40
+            lg:w-3/5 lg:h-full
+            h-100 object-cover rounded-r-md
+             order-first lg:order-last`} />
     </div>
 }
 
@@ -60,8 +67,10 @@ export default function Home() {
 
             <section>
                 <p className="bg-black text-white p-5 text-xl">Features</p>
-                <div className="p-5 flex flex-wrap justify-around">
-                    {features.map(({ imageUrl, title, desc }, index) => <Feature imageUrl={imageUrl} title={title} desc={desc} key={index} />)}
+                <div className="m-4">
+                    <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4">
+                        {features.map(({ imageUrl, title, desc }, index) => <Feature imageUrl={imageUrl} title={title} desc={desc} key={index} />)}
+                    </div>
                 </div>
             </section>
         </div>
