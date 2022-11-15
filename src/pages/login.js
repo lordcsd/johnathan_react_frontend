@@ -4,6 +4,7 @@ import NavBar from "../components/header";
 import { RootContext } from "../contexts/rootContext";
 import { useCookies } from 'react-cookie'
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 const loginFields = [
     {
@@ -63,7 +64,7 @@ export default function Login() {
     const [cookies, setCookies, removeCookie] = useCookies(['cookie-name'])
     const navigate = useNavigate()
 
-    const switchAction = () => setState({ ...state, login: !state.login })
+    const switchAction = () => setState({ ...state, login: !state.login, errors: [] })
     const switchShowPassword = () => setState({ ...state, showPasswords: !state.showPasswords })
     const handleInputs = (e) => {
         let errors = []
@@ -94,7 +95,7 @@ export default function Login() {
         try {
             await setState({ ...state, error: [] })
             if (login) {
-                const { data: loggedInUser } = await axiosConfig().post('/users/login', { email, password })
+                const { data: loggedInUser } = await axiosConfig().post('/api/users/login', { email, password })
                 for (let field in loggedInUser) {
                     setCookies(field, loggedInUser[field], { path: "/" })
                 }
@@ -113,7 +114,7 @@ export default function Login() {
             if (!login) {
                 const { data: signedUpUser } = await axiosConfig()
                     .post(
-                        "/users/signUp",
+                        "/api/users/signUp",
                         { email, name, age, gender, phone, password }
                     )
                 for (let field in signedUpUser) {
@@ -123,12 +124,14 @@ export default function Login() {
             }
         } catch (err) {
             console.log('auth error: ', err)
+            toast('Auth Error')
         }
     }
 
-    return <main className=" bg-slate-100 min-h-screen">
+    return <main className=" bg-slate-100 h-screen min-h-screen">
         <NavBar />
-        <div className="flex flex-col justify-center">
+        <div className="flex flex-col justify-center min-h-full">
+
             <div className="m-2 sm:m-2 md:m-6 lg:m-10 bg-white p-4 rounded-lg shadow-lg">
                 <p className="text-2xl pb-2">{state.login ? 'Login' : "Sign Up"}</p>
                 <div>
@@ -143,7 +146,6 @@ export default function Login() {
                                 name={name}
                                 type={type}
                                 className="border-black border-solid border-2 border-opacity-50 outline-none my-3 p-2 w-full h-12 rounded-md" />
-
                         })}
                 </div>
 
@@ -185,5 +187,17 @@ export default function Login() {
                     </button></div>
             </div>
         </div>
+        <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+        />
     </main >
 }

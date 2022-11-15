@@ -2,7 +2,7 @@ import useSWR from "swr";
 import { fetcher } from "../common/fetcher";
 
 export default function useOverview() {
-    const { data, isError } = useSWR('/overview', fetcher)
+    const { data, isError } = useSWR('/api/overview', fetcher)
 
     return {
         data,

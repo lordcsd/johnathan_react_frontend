@@ -60,29 +60,36 @@ export default function AccountSetting() {
         })
     }
 
-    const toggleModal = async (e) =>
-        await setState({
+    const toggleModal = (e) =>
+        setState({
             ...state,
             promptOpen: !state.promptOpen,
-            promptPurpose: e.target.name
+            ...e && { promptPurpose: e.target.name }
         })
 
 
     const deleteAccount = () => {
         toggleModal()
-        axiosConfig().post("/users/delete")
+        axiosConfig().post("/api/users/delete")
             .then(res => {
                 navigate('/login')
             })
-            .catch(err => console.log({ err }))
+            .catch(err => toast("Error Removing account", {
+                position: "bottom-right",
+                autoClose: 5000,
+                closeOnClick: true,
+                pauseOnHover: true,
+                progress: undefined,
+                theme: "light",
+            }))
     }
 
     const updateAccount = () => {
         toggleModal()
-        const { name, age, phone, oldPassword, newPassword } = state
-        if (!name || !age || !phone || !oldPassword || !newPassword) {
+        const { name, age, phone, oldPassword, newPassword, confirmPassword } = state
+        if (!name || !phone || !oldPassword || !newPassword || !confirmPassword) {
             return toast("Please complete form", {
-                position: "top-right",
+                position: "bottom-right",
                 autoClose: 5000,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -92,37 +99,20 @@ export default function AccountSetting() {
         }
         axiosConfig()
             .patch(
-                "/users",
+                "/api/users",
                 { name, age, phone, oldPassword, newPassword })
             .then(res => {
-                console.log({ res })
+                return toast("Update Successful");
             })
             .catch(err => {
                 const unprocessibleErrors = err.response.data.errors
                 if (unprocessibleErrors) {
                     unprocessibleErrors
                         .forEach(_error => {
-                            toast(_error, {
-                                position: "top-right",
-                                autoClose: 5000,
-                                closeOnClick: true,
-                                pauseOnHover: true,
-                                progress: undefined,
-                                theme: "light",
-                            });
+                            toast(_error);
                         })
                 } else {
-
-                    toast('Something when wrong!!', {
-                        position: "top-right",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    });
+                    toast('Something when wrong!!');
                 }
 
             })

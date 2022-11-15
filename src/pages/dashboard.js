@@ -20,7 +20,7 @@ const touristViews = {
 
 export default function Dashboard() {
     const [state, setState] = useState({
-        presentScreen: "Account Setting"
+        presentScreen: 'Overview'
     })
 
     const [cookies, setCookir, removeCookie] = useCookies(['cookie-name'])
