@@ -46,6 +46,7 @@ export default function UserCart() {
       name,
       phone,
       userId: _id,
+      userCart,
     },
     publicKey: configConstants.paystack.test.publicKey,
     text: "Checkout Tour Tickets",
