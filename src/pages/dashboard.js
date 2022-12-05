@@ -44,12 +44,11 @@ export default function Dashboard() {
                         <button
                             key={_index}
                             onClick={() => setState({ ...state, presentScreen: _key })}
-                            className={`p-2 m-1
+                            className={`p-1 m-1
                              ${state.presentScreen === _key
                                     ? "bg-green-500 text-white"
                                     : "bg-white text-slate-700"}
-                                    sm:text-xs sm:font-normal
-                                    lg:text-lg rounded-md lg:font-bold
+                                text-xs rounded-sm 
                              `}
                         >
                             {_key}

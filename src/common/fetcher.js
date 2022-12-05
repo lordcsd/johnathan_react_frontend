@@ -1,4 +1,5 @@
 import axios from "axios";
-import { baseURL } from "./constants";
+import { configConstants } from "./constants";
 
-export const fetcher = (url) => axios.get(baseURL + url).then((res) => res.data);
+export const fetcher = (url) =>
+  axios.get(configConstants.server.baseURL + url).then((res) => res.data);

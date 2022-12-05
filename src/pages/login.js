@@ -124,15 +124,16 @@ export default function Login() {
             }
         } catch (err) {
             console.log('auth error: ', err)
+            
             toast('Auth Error')
         }
     }
 
     return <main className=" bg-slate-100 h-screen min-h-screen">
         <NavBar />
-        <div className="flex flex-col justify-center min-h-full">
+        <div className="flex justify-center items-center min-h-full">
 
-            <div className="m-2 sm:m-2 md:m-6 lg:m-10 bg-white p-4 rounded-lg shadow-lg">
+            <div className="m-2 sm:m-2 md:m-6 lg:m-10 lg:w-1/2 bg-white p-4 rounded-lg shadow-lg">
                 <p className="text-2xl pb-2">{state.login ? 'Login' : "Sign Up"}</p>
                 <div>
                     {(state.login ? loginFields : signUpFields)
