@@ -21,12 +21,14 @@ export default function UserCart() {
   const [state, setState] = useState({
     promptOpen: false,
     promptPurpose: null,
+    ticketIds: [],
     totalCost: 0,
   });
 
   useEffect(() => {
     setState({
       ...state,
+      ticketIds: !userCart ? [] : userCart.map((ticket) => ticket._id),
       totalCost: userCart.length
         ? userCart
             .map((ticket) => ticket.price)
@@ -39,20 +41,22 @@ export default function UserCart() {
     setState({ ...state, promptOpen: !state.promptOpen, promptPurpose });
   };
 
-  const paymentDetails = {
-    email,
-    amount: state.totalCost * 100, //in naira
-    metadata: {
-      name,
-      phone,
-      userId: _id,
-      userCart,
-    },
-    publicKey: configConstants.paystack.test.publicKey,
-    text: "Checkout Tour Tickets",
-    onSuccess: () =>
-      alert("Thanks for doing business with us! Come back soon!!"),
-    onClose: () => alert("Wait! You need this oil, don't go!!!!"),
+  const paymentDetails = () => {
+    return {
+      email,
+      amount: state.totalCost * 100, //in naira
+      metadata: {
+        name,
+        phone,
+        userId: _id,
+        ticketIds: state.ticketIds,
+      },
+      publicKey: configConstants.paystack.test.publicKey,
+      text: "Checkout Tour Tickets",
+      onSuccess: () =>
+        alert("Thanks for doing business with us! Come back soon!!"),
+      onClose: () => alert("Wait! You need this oil, don't go!!!!"),
+    };
   };
 
   return (
@@ -93,7 +97,7 @@ export default function UserCart() {
             Clear cart
           </button>
           <PaystackButton
-            {...paymentDetails}
+            {...paymentDetails()}
             className="rounded bg-green-500 mt-2 p-1 text-sm"
           />
         </div>

@@ -1,6 +1,8 @@
 export const configConstants = {
   server: {
-    baseURL: "", //"http://localhost:3001",
+    // baseURL: "http://localhost:3001",
+    // baseURL: "https://tourist-app.cyclic.app",
+    baseURL: "",
   },
   paystack: {
     test: {

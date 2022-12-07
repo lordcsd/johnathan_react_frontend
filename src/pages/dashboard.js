@@ -21,12 +21,12 @@ const adminViews = {
 const touristViews = {
     ...generalViews,
     "Cart": <UserCart />,
-    "Active Tickets": <UserActiveTickets />,
+    "My Tickets": <UserActiveTickets />,
 }
 
 export default function Dashboard() {
     const [state, setState] = useState({
-        presentScreen: 'Tickets'
+        presentScreen: "My Tickets"
     })
 
     const [cookies, setCookir, removeCookie] = useCookies(['cookie-name'])
